@@ -1,0 +1,109 @@
+*******************************************************
+SIMULATIONS OF FCR 2013 water eductor -----------------
+=======================================================
+Start date and time for simulations
+-------------------------------------------------------
+year         !      2014          !
+month        !        05          !
+day          !        01          !
+hour         !      0000          !
+-------------------------------------------------------
+Space-time domains, cell size & time steps  
+-------------------------------------------------------
+xl           !      670.          ! Length of domain (m) in EW direction
+yl           !      425.          !   "    "    "    (m) in NS       "
+zl           !       10.2         !   "    "    "    (m) in vertical
+tl           ! 21945600.          ! Length of time (s) simulated (152 days) ! 02/10/19 6096hr
+idx          !       10.0         ! Cell size (m) in EW direction
+idy          !       10.0         ! Cell size (m) in NS direction
+idz          !        0.3         ! Cell size (m) in vertical
+dzmin        !        0.06        ! Min. cell size (m) in vertical
+datadj       !        0.0         ! Adjustment of datum by default datum = 0.0
+zeta0        !        0.0         ! Initial location of water surface 
+idt          !        5.          ! Time step (s)
+ibathf       !        0           ! How bathy file is read >0(dz=constant);<0 (dz=variable); ||>10 (maximize) 
+xslope       !        0.          
+yslope       !        0.          
+-------------------------------------------------------
+Parameters controlling solution algorithm  
+-------------------------------------------------------
+itrap        !        1           ! 1 = trapezoidal iteration is used; single step LF if 0 
+niter        !        1           ! No. of trapezoidal iterations 
+smooth       !        1           ! Smooth hydrodynamic solution 1 = Smooth; 0 = DO NOT smooth
+beta         !     0.05           ! Beta parameter for smoothing filter (0.05-0.2 recommended)
+iturb        !        1           ! 0 = constant vert. eddy visc. 1 = 2-eq. model (Mellor&Yamada)
+az0          !    1.E-3           ! Constant vert. eddy viscosity (if iturb = 0)
+dz0          !    1.E-3           ! Constant vert. eddy diffusivity (if iturb = 0)
+iadv         !        1           ! 0 = mom. advection OFF; 1 = mom. advection ON
+itrmom       !        2           ! Algorithm for mom. horizontal advection 1=centered; 2=upwind
+ihd          !        1           ! 0 = horizontal diffusion (of mom. or scalar) OFF 1 = horiz. diffusion ON
+ax0          !    1.E-2           ! Horizontal eddy diffusivity/viscosity in EW-direction (ms-2) 1.E-2
+ay0          !    1.E-2           ! Horizontal eddy diffusivity/viscosity in NS-direction(ms-2)  1.E-2
+f            !    1.1853e-4       ! f Coriolis parameter (s-1)
+theta        !      0.6           ! Weighting parameter for semi-implicit solution (0.5-1)
+ibc          !        1           ! 1 = Baroclinic terms in included in mom. solution (0 otherwise)
+isal         !        1           ! 1 = Solve scalar transport equation (0 otherwise)
+itrsch       !        4           ! Algorithm for scalar advection 1=centered(C);2=upwind(U);3=U@(k=k1z+1);4=FL
+cd           !    0.002           ! Bottom drag coefficient (adimensional)
+isurfbc      !        2           ! Surface BC; 0=constant; 1=preprocess; 2=runtime(I); 3=runtime(II), 11=runtime with LW
+dtsbc        !    3600.           ! Time step (s) between records in surbc.txt (when ifsbc > 1)
+cw           !    1.5E-3          ! Wind drag coefficient (only if ifsbc = 0)
+ws           !    2.0E-0          ! Wind speed (constant in m/s) when ifsbc = 0
+phi          !      0.0           !
+radischm     !        1           ! Solar radiation model type: 1 Henderson's (origin) 2 Kara's
+rdtr         !        1           ! number of tracers to be loaded in si3d_init
+seddep       !        0
+idbg         !        1           ! 0 = no check messages 1 = check messages output for debug purposes
+-------------------------------------------------------
+Output specifications for time files (plot in matlab with plot_profile_timeseries)
+-------------------------------------------------------  
+ ipt         !      360           ! No. of time step between consecutive output to time file 
+ nnodes      !        4           ! No. of nodes where time file is requested (FCR50 45 30 20)
+ inodes      !   63   63   50   29  
+ jnodes      !   35   31   18   12     
+-------------------------------------------------------
+Output specifications for H-plane files (plot in matlab with LoadPlotSheetFile3L)
+-------------------------------------------------------
+ iht         !        0           ! No. of time step between consecutive output to plane file  
+ -------------------------------------------------------
+Output specifications for X-section files (plot in matlab with LoadPlotSectionFile3L)
+-------------------------------------------------------
+ ixt         !        0           ! No. of time step between consecutive output to section file              
+------------------------------------------------------
+Output specifications for 3D space files
+-------------------------------------------------------
+ ipxml       !        0           ! No. of time step between consecutive output to 3D-space file    
+ itspf       !        0           ! No. of time steps before first output to 3D-space file
+-------------------------------------------------------    
+Open boundary conditions specifications 
+-------------------------------------------------------     
+ nopen       !        1           ! No. of open bdries  
+ dtsecopenbc !       86400.       ! seconds
+ OpenBdry 2  ! ################ ! Outflow BC for FCR dam
+ iside       !        2           ! 4 = south side
+ itype       !        2           ! surface flow = 2
+ isbc        !       60           ! i cell start
+ jsbc        !       42           ! j cell start
+ iebc        !       61           ! i cell end  
+ jebc        !       42           ! j cell end  
+-------------------------------------------------------       
+Boundary conditions for nested grid computations 
+-------------------------------------------------------     
+ nxBDO       !        0           ! No. of open bdries   
+-------------------------------------------------------    
+Specification for tracer (other than oxygen) simulation 
+-------------------------------------------------------     
+ ntr         !        1           ! No. of tracers sim if ecomod = 4, then ntr = num of output specified in si3d_fabm_vars
+ ecomod      !        0           ! 0 = normal 1 = WQ 4 = FABM
+ iotr        !      360           !
+ iinj        !        0           ! groups of tracers injected
+-------------------------------------------------------      
+Specification for oxgygenation system simulations
+-------------------------------------------------------
+ iopss       !        3           ! No. of columns with point sources-sinks 
+ ndiff       !        1           ! No. of diffusers (or devices) used to inject DO
+ iodt        !      3600.         ! Time (secs) between consecutive records in io files
+ #########   ! i- j- device number. 
+  JetLoc  63  36   1
+  JetLoc  63  35   1
+  JetLoc  63  34   1

@@ -1,0 +1,175 @@
+!-------------------------------------------------------------------------------
+! aed_nml
+!-------------------------------------------------------------------------------
+!
+! List here the available aed modules to be included in the simulation.
+! It is important they are listed in the correct order so dependecicies can be
+! set during the model set-up phase.
+!
+! For further detail about available AED modules visit:
+!     aed.see.uwa.edu.au/research/models/AED
+!
+!-------------------------------------------------------------------------------
+&fabm_nml
+   models = 'aed_oxygen',
+	    'aed_sedflux',            
+            !'aed_carbon',
+            !'aed_silica',
+            !'aed_nitrogen',
+            !'aed_phosphorus',
+            !'aed_organic_matter',
+            !'aed_phytoplankton',
+            !'aed_zooplankton',
+            !'aed_tracer',
+            !'aed_totals'
+/
+
+
+!###############################################################################
+! aed_oxygen - AED oxygen model
+!-------------------------------------------------------------------------------
+! oxy_initial   [float, unit = mmol/m^3]
+!                 initial O2 concentration (can be overwritten by GLM or TFV IC)
+! Fsed_oxy      [float, unit = mmol/m^2/day]
+!                 sediment oxygen demand
+! Ksed_oxy      [float, unit = mmol/m^3]
+!                 half-saturation concentration of oxygen sediment flux
+! theta_sed_oxy [float, unit = - ]
+!                 Arrhenius temperature multiplier for sediment oxygen flux
+!  Fsed_oxy_variable = Oxygen sedimentation variable link
+!                         eg 'aed_sedflux_Fsed_oxy' will use the value supplied
+!                          by the aed_sedflux model for Fsed_oxy
+!
+! NOTE: Processes such as photosynthesis and bacterial respiration from other
+!       AED modules should be configured to use the following names:
+!        aed_oxygen_oxy
+!
+! DIAGNOSTICS:
+!
+!-------------------------------------------------------------------------------
+&aed_oxygen
+   oxy_initial = 225.0
+   oxy_min = 0.0
+   oxy_max =350.0 ! 25/06/19
+   Fsed_oxy =-21.0 !Manual: -38 - -6
+   Ksed_oxy = 7.0 !Manual: 15.6
+   theta_sed_oxy = 1.08
+/
+
+
+!###############################################################################
+! aed_sedflux
+!  sediment flux model types :
+!       "Constant" = sedimentation fluxes are constant values.
+!       "Constant2d" = Sedimentation fluxes may be different for
+!                                different benthic cells - provided by driver
+!       "Dynamic" = Sedimentation fluxes may be different for
+!                                different benthic cells at different times
+!                                        - computed by model
+!       "Dynamic2d" = Sedimentation fluxes may be different for
+!                                different benthic cells at different times
+!                                        - computed by model
+!-------------------------------------------------------------------------------
+&aed_sedflux
+   sedflux_model = 'Constant'
+/
+
+
+!###############################################################################
+! aed_sed_constant
+!  Fsed_oxy  = Sedimentation flux for oxygen
+!  Fsed_rsi  = Sedimentation flux for silica
+!  Fsed_amm  = Sedimentation flux for ammonia
+!  Fsed_nit  = Sedimentation flux for nitrogen
+!  Fsed_frp  = Sedimentation flux for phosphorus
+!  Fsed_pon  = Sedimentation flux for particulate organic nitrogen
+!  Fsed_don  = Sedimentation flux for dissolved organic nitrogen
+!  Fsed_pop  = Sedimentation flux for particulate organic phosphorus
+!  Fsed_dop  = Sedimentation flux for dissolved organic phosphorus
+!  Fsed_poc  = Sedimentation flux for particulate organic carbon
+!  Fsed_doc  = Sedimentation flux for dissolved organic carbon
+!  Fsed_dic  = Sedimentation flux for dissolved inorganic carbon
+!  Fsed_ch4  = Sedimentation flux for methane
+!  Fsed_feii = Sedimentation flux for iron
+!-------------------------------------------------------------------------------
+&aed_sed_constant
+   Fsed_oxy = 0.0
+   Fsed_rsi = 0.0
+   Fsed_amm = 0.0  ! 22.13 | 1.35
+   Fsed_nit = 0.0  ! -8.57
+   Fsed_frp = 0.0
+   Fsed_pon = 0.0
+   Fsed_don = 0.0
+   Fsed_pop = 0.0
+   Fsed_dop = 0.0
+   Fsed_poc = 0.0
+   Fsed_doc = 0.0
+   Fsed_dic = 0.0
+/
+
+
+!###############################################################################
+! aed_carbon - AED carbon model
+!-------------------------------------------------------------------------------
+! dic_initial   [float, unit = mmol/m^3]
+!                 initial DIC concentration (can be overwritten by GLM or TFV IC)
+! Fsed_dic      [float, unit = mmol/m^2/day]
+!                 sediment CO2 flux
+! Ksed_dic      [float, unit = mmol/m^3]
+!                 half-saturation oxygen concentration controlling CO2 flux
+! theta_sed_dic [float, unit = - ]
+!                 Arrhenius temperature multiplier for sediment CO2 flux
+! pH_initial    [float, unit = - ]
+!                 initial water column pH
+! atmco2        [float, unit = ppm]
+!                 atmospheric CO2 concentration
+! ionic         [float, unit = meq]
+!                 average ionic strength of the water column
+!
+! ch4_initial   [float, unit = mmol/m^3]
+!                 initial CH4 concentration (can be overwritten by GLM or TFV IC)
+! Rch4ox        [float, unit = - ]
+!                 maximum reaction rate of CH4 oxidation @ 20C
+! Kch4ox        [float, unit = ppm]
+!                 half-saturation oxygen concentration for CH4 oxidation
+! vTch4ox       [float, unit = meq]
+!                 Arrhenius temperature multiplier for CH4 oxidation
+! Fsed_ch4      [float, unit = mmol/m^2/day]
+!                 sediment CH4 flux
+! Ksed_ch4      [float, unit = mmol/m^3]
+!                 half-saturation oxygen concentration controlling CH4 flux
+! theta_sed_ch4 [float, unit = - ]
+!                 Arrhenius temperature multiplier for sediment CH4 flux
+! methane_reactant_variable
+!                 state variable to be consumed during CH4 oxidation
+!
+! NOTE: Processes such as photosynthesis and bacterial respiration from other
+!       AED modules should be configured to use the following names:
+!        aed_carbon_dic
+!        aed_carbon_ch4
+!        aed_carbon_pH
+!
+! DIAGNOSTICS:
+!        -
+!-------------------------------------------------------------------------------
+&aed_carbon
+   !-- DIC and pH --
+   dic_initial = 1600  ! Mendota ~ 45 mg/L, Crystal ~ 1 mg/L
+   Fsed_dic = 3.0 !IC not in manual
+   Ksed_dic = 20.0
+   theta_sed_dic = 1.08
+   Fsed_dic_variable='aed_sedflux_Fsed_dic'
+   pH_initial = 7.5
+   atmco2 = 400e-6
+   ionic = 0.1
+   !-- CH4 --
+!   ch4_initial = 0
+!   Rch4ox = 0.000
+!   Kch4ox = 0.05
+!   vTch4ox = 1.08
+!   Fsed_ch4 = 0.5
+!   Ksed_ch4 = 100.0
+!   theta_sed_ch4 = 1.08
+!   methane_reactant_variable='aed_oxygen_oxy'
+!   Fsed_ch4_variable='Fsed_ch4'
+/
