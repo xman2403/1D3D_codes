@@ -1,0 +1,19 @@
+********************************************************** 
+********************************************************** 
+			FABM vars
+********************************************************** 
+aed_oxygen_oxy 
+aed_nitrogen_amm 
+aed_nitrogen_nit 
+aed_phosphorus_frp 
+aed_organic_matter_doc
+aed_phytoplankton_CYANOPCH1 
+aed_phytoplankton_CYANONPCH2 
+aed_phytoplankton_DIATOMPCH4 
+aed_phytoplankton_CHLOROPCH3 
+
+
+
+
+
+
